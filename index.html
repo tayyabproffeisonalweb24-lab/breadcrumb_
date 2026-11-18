@@ -1,0 +1,726 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Premium Breadcrumb UI</title>
+
+<style>
+/* ===== Premium Color System ===== */
+:root {
+    --bg: #080d14;
+    --card: #101923;
+    --card-light: #162330;
+    --border: rgba(148, 163, 184, 0.16);
+
+    --white: #f4f8fc;
+    --muted: #91a2b7;
+
+    --green: #10b981;
+    --green-light: #6ee7b7;
+
+    --cyan: #38bdf8;
+    --gold: #fbbf24;
+
+    --shadow: 0 24px 70px rgba(0, 0, 0, 0.38);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    min-height: 100vh;
+    display: grid;
+    place-items: center;
+    padding: 24px;
+
+    background:
+        radial-gradient(
+            circle at 12% 15%,
+            rgba(16, 185, 129, 0.12),
+            transparent 32%
+        ),
+        radial-gradient(
+            circle at 90% 85%,
+            rgba(56, 189, 248, 0.10),
+            transparent 30%
+        ),
+        var(--bg);
+
+    color: var(--white);
+    font-family: Inter, "Segoe UI", Arial, sans-serif;
+}
+
+/* ===== Main Card ===== */
+.container {
+    position: relative;
+    width: 100%;
+    max-width: 900px;
+    padding: 42px;
+
+    background: linear-gradient(
+        145deg,
+        rgba(22, 35, 48, 0.96),
+        rgba(12, 19, 28, 0.98)
+    );
+
+    border: 1px solid var(--border);
+    border-radius: 26px;
+    box-shadow: var(--shadow);
+    overflow: hidden;
+
+    animation: reveal 0.7s ease both;
+}
+
+/* Decorative top line */
+.container::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 12%;
+    width: 76%;
+    height: 2px;
+
+    background: linear-gradient(
+        90deg,
+        transparent,
+        var(--green),
+        var(--cyan),
+        var(--gold),
+        transparent
+    );
+}
+
+.eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+
+    padding: 8px 13px;
+    margin-bottom: 22px;
+
+    color: var(--green-light);
+    background: rgba(16, 185, 129, 0.08);
+    border: 1px solid rgba(16, 185, 129, 0.24);
+    border-radius: 50px;
+
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+}
+
+.status-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--green-light);
+    box-shadow: 0 0 12px rgba(110, 231, 183, 0.65);
+}
+
+h1 {
+    margin-bottom: 12px;
+    font-size: clamp(27px, 5vw, 38px);
+    font-weight: 750;
+    letter-spacing: -1.2px;
+}
+
+h1 span {
+    color: var(--green-light);
+}
+
+.subtitle {
+    max-width: 580px;
+    color: var(--muted);
+    font-size: 14px;
+    line-height: 1.9;
+}
+
+/* ===== Breadcrumb Panel ===== */
+.breadcrumb-panel {
+    margin-top: 34px;
+    padding: 18px;
+
+    background: rgba(5, 11, 18, 0.65);
+    border: 1px solid rgba(148, 163, 184, 0.13);
+    border-radius: 18px;
+
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.025);
+}
+
+.panel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 18px;
+}
+
+.panel-label {
+    color: #d5dfeb;
+    font-size: 12px;
+    font-weight: 650;
+    letter-spacing: 0.5px;
+}
+
+.live-label {
+    color: var(--cyan);
+    font-size: 11px;
+    font-weight: 600;
+}
+
+/* ===== Breadcrumb ===== */
+.breadcrumb {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    list-style: none;
+}
+
+.breadcrumb-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    animation: itemReveal 0.5s ease both;
+}
+
+.breadcrumb-item:nth-child(2) {
+    animation-delay: 0.07s;
+}
+
+.breadcrumb-item:nth-child(3) {
+    animation-delay: 0.14s;
+}
+
+.breadcrumb-item:nth-child(4) {
+    animation-delay: 0.21s;
+}
+
+/* Normal breadcrumb links */
+.breadcrumb-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+
+    padding: 11px 14px;
+
+    color: #a7b6c8;
+    background: rgba(148, 163, 184, 0.035);
+    border: 1px solid transparent;
+    border-radius: 11px;
+
+    font-size: 13px;
+    font-weight: 550;
+    text-decoration: none;
+    white-space: nowrap;
+
+    transition:
+        color 0.25s ease,
+        background 0.25s ease,
+        border-color 0.25s ease,
+        transform 0.25s ease,
+        box-shadow 0.25s ease;
+}
+
+.breadcrumb-link:hover {
+    color: var(--cyan);
+    background: rgba(56, 189, 248, 0.08);
+    border-color: rgba(56, 189, 248, 0.22);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(56, 189, 248, 0.07);
+}
+
+.breadcrumb-link:focus-visible {
+    outline: 2px solid var(--cyan);
+    outline-offset: 3px;
+}
+
+/* Icons */
+.crumb-icon {
+    display: inline-grid;
+    place-items: center;
+    width: 20px;
+    height: 20px;
+    font-size: 15px;
+}
+
+/* Elegant separator */
+.separator {
+    color: #52677d;
+    font-size: 16px;
+    user-select: none;
+}
+
+/* ===== Active Breadcrumb ===== */
+.active-page {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+
+    padding: 11px 15px;
+
+    color: #05251a;
+    background: linear-gradient(
+        120deg,
+        #6ee7b7 0%,
+        #34d399 55%,
+        #38bdf8 145%
+    );
+
+    border: 1px solid rgba(167, 243, 208, 0.7);
+    border-radius: 11px;
+
+    font-size: 13px;
+    font-weight: 750;
+    white-space: nowrap;
+
+    box-shadow:
+        0 5px 20px rgba(16, 185, 129, 0.15),
+        inset 0 1px 0 rgba(255,255,255,0.35);
+}
+
+.active-indicator {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #087b57;
+    box-shadow: 0 0 0 3px rgba(5, 37, 26, 0.08);
+}
+
+/* ===== Page Preview ===== */
+.preview {
+    position: relative;
+    margin-top: 22px;
+    padding: 25px;
+
+    background: linear-gradient(
+        135deg,
+        rgba(22, 35, 48, 0.9),
+        rgba(12, 21, 31, 0.9)
+    );
+
+    border: 1px solid var(--border);
+    border-radius: 17px;
+
+    transition: border-color 0.3s ease;
+}
+
+.preview:hover {
+    border-color: rgba(16, 185, 129, 0.28);
+}
+
+.preview-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 18px;
+}
+
+.preview-title {
+    color: var(--white);
+    font-size: 19px;
+    font-weight: 700;
+}
+
+.preview-badge {
+    padding: 6px 10px;
+    color: var(--gold);
+    background: rgba(251, 191, 36, 0.08);
+    border: 1px solid rgba(251, 191, 36, 0.18);
+    border-radius: 7px;
+
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.7px;
+}
+
+.preview-text {
+    color: var(--muted);
+    font-size: 13px;
+    line-height: 1.9;
+}
+
+.current-path {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    margin-top: 22px;
+    padding-top: 17px;
+    border-top: 1px solid var(--border);
+}
+
+.path-label {
+    color: #778ba2;
+    font-size: 11px;
+}
+
+.path-value {
+    color: var(--green-light);
+    font-size: 12px;
+    font-weight: 650;
+}
+
+/* ===== Footer ===== */
+.footer {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 22px;
+
+    color: #718399;
+    font-size: 11px;
+}
+
+.footer span:last-child {
+    color: var(--cyan);
+}
+
+/* ===== Motion ===== */
+@keyframes reveal {
+    from {
+        opacity: 0;
+        transform: translateY(16px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes itemReveal {
+    from {
+        opacity: 0;
+        transform: translateY(7px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 600px) {
+    body {
+        padding: 14px;
+    }
+
+    .container {
+        padding: 25px 17px;
+        border-radius: 20px;
+    }
+
+    .breadcrumb-panel {
+        padding: 12px;
+    }
+
+    .breadcrumb {
+        gap: 5px;
+    }
+
+    .breadcrumb-item {
+        gap: 5px;
+    }
+
+    .breadcrumb-link {
+        padding: 9px 8px;
+        gap: 5px;
+        font-size: 11px;
+    }
+
+    .active-page {
+        padding: 9px 10px;
+        gap: 6px;
+        font-size: 11px;
+    }
+
+    .crumb-icon {
+        width: 15px;
+        font-size: 13px;
+    }
+
+    .separator {
+        font-size: 13px;
+    }
+
+    .preview {
+        padding: 18px;
+    }
+
+    .preview-title {
+        font-size: 17px;
+    }
+}
+
+@media (max-width: 380px) {
+    .breadcrumb {
+        gap: 7px;
+    }
+
+    .breadcrumb-item {
+        gap: 4px;
+    }
+
+    .breadcrumb-link,
+    .active-page {
+        padding: 8px 7px;
+        font-size: 10px;
+    }
+
+    .crumb-icon {
+        display: none;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<main class="container">
+
+    <div class="eyebrow">
+        <span class="status-dot"></span>
+        Premium UI Component
+    </div>
+
+    <h1><span>Breadcrumb</span></h1>
+
+    <p class="subtitle">
+        A refined navigation experience with rich colors,
+        subtle gradients and elegant interactions for
+        professional websites and dashboards.
+    </p>
+
+    <!-- Breadcrumb Navigation -->
+    <section class="breadcrumb-panel">
+
+        <div class="panel-header">
+            <span class="panel-label">NAVIGATION PATH</span>
+            <span class="live-label">● Interactive Demo</span>
+        </div>
+
+        <nav aria-label="Breadcrumb">
+            <ol class="breadcrumb" id="breadcrumb">
+
+                <li class="breadcrumb-item">
+                    <a href="#home"
+                       class="breadcrumb-link"
+                       data-page="Home">
+                        <span class="crumb-icon">⌂</span>
+                        Home
+                    </a>
+                </li>
+
+                <li class="breadcrumb-item">
+                    <span class="separator" aria-hidden="true">›</span>
+                    <a href="#dashboard"
+                       class="breadcrumb-link"
+                       data-page="Dashboard">
+                        <span class="crumb-icon">▦</span>
+                        Dashboard
+                    </a>
+                </li>
+
+                <li class="breadcrumb-item">
+                    <span class="separator" aria-hidden="true">›</span>
+                    <a href="#projects"
+                       class="breadcrumb-link"
+                       data-page="Projects">
+                        <span class="crumb-icon">◇</span>
+                        Projects
+                    </a>
+                </li>
+
+                <li class="breadcrumb-item">
+                    <span class="separator" aria-hidden="true">›</span>
+                    <span class="active-page" aria-current="page">
+                        <span class="active-indicator"></span>
+                        Overview
+                    </span>
+                </li>
+
+            </ol>
+        </nav>
+
+    </section>
+
+    <!-- Dynamic Page Preview -->
+    <section class="preview" aria-live="polite">
+
+        <div class="preview-top">
+            <h2 class="preview-title" id="pageTitle">
+                Project Overview
+            </h2>
+
+            <span class="preview-badge">CURRENT PAGE</span>
+        </div>
+
+        <p class="preview-text" id="pageDescription">
+            Welcome to your project overview. Use the
+            breadcrumb links above to explore the demo
+            navigation and update the current page.
+        </p>
+
+        <div class="current-path">
+            <span class="path-label">CURRENT LOCATION</span>
+            <span class="path-value" id="pagePath">
+                Home / Dashboard / Projects / Overview
+            </span>
+        </div>
+
+    </section>
+
+    <footer class="footer">
+        <span>Designed for modern interfaces</span>
+        <span>● Responsive · Accessible · Elegant</span>
+    </footer>
+
+</main>
+
+<script>
+// Demo page data
+const pages = [
+    {
+        name: "Home",
+        title: "Welcome Home",
+        description: "Welcome to the main page of your application.",
+        icon: "⌂"
+    },
+    {
+        name: "Dashboard",
+        title: "Dashboard",
+        description: "View your statistics, activity and dashboard information.",
+        icon: "▦"
+    },
+    {
+        name: "Projects",
+        title: "Your Projects",
+        description: "Explore, organize and manage your projects.",
+        icon: "◇"
+    },
+    {
+        name: "Overview",
+        title: "Project Overview",
+        description: "Welcome to your project overview. Use the breadcrumb links above to explore the demo navigation and update the current page.",
+        icon: "●"
+    }
+];
+
+const breadcrumb = document.getElementById("breadcrumb");
+const pageTitle = document.getElementById("pageTitle");
+const pageDescription = document.getElementById("pageDescription");
+const pagePath = document.getElementById("pagePath");
+
+// Render breadcrumb based on selected page
+function renderBreadcrumb(activeIndex) {
+    breadcrumb.replaceChildren();
+
+    pages.slice(0, activeIndex + 1).forEach((page, index) => {
+        const item = document.createElement("li");
+        item.className = "breadcrumb-item";
+
+        if (index > 0) {
+            const separator = document.createElement("span");
+            separator.className = "separator";
+            separator.setAttribute("aria-hidden", "true");
+            separator.textContent = "›";
+            item.appendChild(separator);
+        }
+
+        if (index === activeIndex) {
+            const active = document.createElement("span");
+            active.className = "active-page";
+            active.setAttribute("aria-current", "page");
+
+            const indicator = document.createElement("span");
+            indicator.className = "active-indicator";
+
+            active.append(indicator, document.createTextNode(page.name));
+            item.appendChild(active);
+        } else {
+            const link = document.createElement("a");
+            link.className = "breadcrumb-link";
+            link.href = "#" + page.name.toLowerCase();
+            link.dataset.page = page.name;
+
+            const icon = document.createElement("span");
+            icon.className = "crumb-icon";
+            icon.textContent = page.icon;
+
+            link.append(icon, document.createTextNode(page.name));
+            item.appendChild(link);
+        }
+
+        breadcrumb.appendChild(item);
+    });
+}
+
+// Update demo content
+function navigateToPage(pageName) {
+    const index = pages.findIndex(page => page.name === pageName);
+    if (index < 0) return;
+
+    const page = pages[index];
+
+    pageTitle.textContent = page.title;
+    pageDescription.textContent = page.description;
+    pagePath.textContent = pages
+        .slice(0, index + 1)
+        .map(item => item.name)
+        .join(" / ");
+
+    renderBreadcrumb(index);
+
+    // Keep the browser URL in sync with the demo page
+    history.replaceState(null, "", "#" + page.name.toLowerCase());
+}
+
+// Handle clicks using event delegation
+breadcrumb.addEventListener("click", event => {
+    const link = event.target.closest("a[data-page]");
+    if (!link) return;
+
+    event.preventDefault();
+    navigateToPage(link.dataset.page);
+});
+
+// Support browser back/forward and direct demo hash URLs
+function syncFromHash() {
+    const name = location.hash.slice(1).toLowerCase();
+    const page = pages.find(item =>
+        item.name.toLowerCase() === name
+    );
+
+    if (page) {
+        navigateToPage(page.name);
+    }
+}
+
+window.addEventListener("hashchange", syncFromHash);
+
+// Initial page
+syncFromHash();
+
+if (!location.hash) {
+    renderBreadcrumb(pages.length - 1);
+}
+</script>
+
+</body>
+</html>
